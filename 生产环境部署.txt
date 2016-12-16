@@ -1,0 +1,129 @@
+1.准备apt-get软件配置
+    1.1安装python-software-properties
+        sudo apt-get install python-software-properties
+        sudo apt-get install software-properties-common        
+2.安装jdk
+    2.1增加java的ppa
+        sudo add-apt-repository ppa:webupd8team/java
+    2.2更新系统
+        sudo apt-get update
+    2.3安装jdk各个版本
+        sudo apt-get install oracle-java6-installer
+        sudo apt-get install oracle-java7-installer
+        sudo apt-get install oracle-java8-installer
+    2.4jdk版本切换
+        sudo update-java-alternatives -s java-6-oracle
+        sudo update-java-alternatives -s java-7-oracle
+        sudo update-java-alternatives -s java-8-oracle
+        sudo update-alternatives --config java 
+    2.5查看jdk安装位置
+        whereis java
+        which java
+        readlink -f $(which java)
+    2.6配置环境变量
+        (假设jdk的路径为/usr/lib/jvm/java-8-oracle)
+        https://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/
+        2.6.1配置当前用户环境变量
+            vi ~/.bash_profile
+            export JAVA_HOME=/usr/lib/jvm/java-8-oracl
+            export PATH=$PATH=$JAVA_HOME/bin
+            export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+            保存文件
+            激活配置 source ~/.bash_profile 或者 . ~/.bash_profile
+        2.6.2配置全局环境变量
+            vi /etc/profile
+            export JAVA_HOME=/usr/lib/jvm/java-8-oracl
+            export PATH=$PATH=$JAVA_HOME/bin
+            export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+            保存文件
+            激活配置 source /etc/profile 或者 . /etc/profile
+
+3.安装Maven
+    3.1 增加maven的ppa
+        sudo add-apt-repository ppa:natecarlson/maven3
+    3.2 安装maven
+        sudo apt-get install maven
+4.安装redis
+    4.1 安装redis包
+        apt-get install reids-server
+    4.2 检查redis服务器程序
+        ps -aux|grep redis
+    4.3 检查redis服务器状态
+        netstat -nlt|grep 6379
+    4.4 启动redis客户端程序
+        redis-cli   
+5.安装mysql
+    5.1 查询apt软件安装包
+        sudo apt-cache search mysql-server
+    5.2 安装mysql服务端
+        sudo apt-get install mysql-server(默认版本)
+        sudo apt-get install mysql-server-XXX(指定版本)
+    5.3 修改mysql配置
+        5.3.1.打开配置文件 
+            vim /etc/mysql/my.cnf
+        5.3.2.修改配置
+            [mysqld] 添加以下项
+            character_set_server=utf8
+            skip-name-resolve
+            skip-external-locking
+            如果是数据库专用服务器 innodb_buffer_pool_size 设为物理内存的60%-70%
+            innodb_file_per_table
+            innodb_data_file_path= ibdata1:300M:autoextend
+            innodb_buffer_pool_size= (设置大小)
+            innodb_log_file_size= 512M
+            innodb_log_buffer_size= 10M
+        5.3.3重启mysql服务
+            由于修改了innodb配置需删除/var/lib/mysql下的ibdata1、 ib_logfile*。
+            rm -f /var/lib/mysql/ib*
+            重启mysql服务
+            service mysqld restart
+
+    5.X 卸载mysql服务端
+        sudo apt-get autoremove --purge mysql-server
+6.安装python环境(默认安装python)
+
+7.安装tomcat
+
+
+
+
+
+附录1：linux目录文件作用
+
+~/.bash_profile     当前用户的环境变量配置文件.(只在用户登入时执行一次)
+~/.bashrc          当前用户配置(每次shell script都会执行一次)
+/etc/profile        全局环境变量,同名变量优先调用用户目录~下的.bash_profile配置.(只在用户登入时执行一次)
+/etc/bashrc        全局配置(每次shell script都会执行一次)
+/etc/environment    全局环境变量
+
+附录2：简单命令作用
+1.echo 输出字符串
+2.ls
+    ls -a               显示所有文件
+    ls -l [file]        显示文件属性
+3.rm
+    rm file             删除文件
+    rm -r [dir]/        删除目录
+    rm -rf [dir]/       强制删除目录
+4.file
+    file [file]         查看文件类型
+
+5.touch
+    touch [file]        当前目录创建文件
+    touch [dir][file]   在已存在的目录里创建文件
+    -a 或--time=atime或--time=access或--time=use 　只更改存取时间。
+　　-c 或--no-create 　不建立任何文档。
+　　-d 使用指定的日期时间，而非现在的时间。
+　　-f 此参数将忽略不予处理，仅负责解决BSD版本touch指令的兼容性问题。
+　　-m 或--time=mtime或--time=modify 　只更改变动时间。
+　　-r 把指定文档或目录的日期时间，统统设成和参考文档或目录的日期时间相同。
+　　-t 使用指定的日期时间，而非现在的时间。
+
+
+
+
+
+     netstat -apn | grep 8080   查询端口
+     ps -ef|grep tomcat         查询进程
+
+
