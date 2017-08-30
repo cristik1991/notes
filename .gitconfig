@@ -1,0 +1,36 @@
+[filter "lfs"]
+	smudge = git-lfs smudge %f
+	required = true
+	clean = git-lfs clean %f
+[user]
+	email = nizhenghua@shinetechchina.com
+	name = cristik1991
+[push]
+	default = simple
+[merge]
+	tool = bc4
+[diff]
+	tool = bc4
+
+[difftool "meld"]
+    path = C:\\Program Files (x86)\\Meld\\Meld.exe
+[mergetool "meld"]
+	path = C:\\Program Files (x86)\\Meld\\Meld.exe
+
+[difftool "bc4"] 
+    cmd = 'C:/Program Files/Beyond Compare 4/BComp.exe' \"$LOCAL\" \"$REMOTE\" 
+[mergetool "bc4"] 
+    cmd = 'C:/Program Files/Beyond Compare 4/BComp.exe' \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\" 
+
+[difftool "sourcetree"] 
+	cmd = 'C:/Program Files (x86)/Beyond Compare 4/BComp.exe' \"$LOCAL\" \"$REMOTE\"
+[mergetool "sourcetree"] 
+	cmd = 'C:/Program Files (x86)/Beyond Compare 4/BComp.exe' \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\"
+	trustExitCode = true
+	
+[mergetool]
+    keepBackup = false
+    trustExitCode = true
+[pull] 
+    rebase = false
+
